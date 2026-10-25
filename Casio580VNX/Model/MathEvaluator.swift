@@ -120,6 +120,9 @@ public class MathEvaluator {
     }
     
     // Convert to DMS (Degrees, Minutes, Seconds)
+    public func formatDMS(_ val: Double) -> String {
+        MathEvaluator.toDMSString(val)
+    }
     public static func toDMSString(_ val: Double) -> String {
         let isNeg = val < 0
         let absVal = abs(val)

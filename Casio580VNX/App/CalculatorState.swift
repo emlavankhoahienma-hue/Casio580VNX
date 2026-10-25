@@ -667,7 +667,7 @@ public class CalculatorState: ObservableObject {
                                 exactDisplay: MathEvaluator.shared.formatDecimal(newVal),
                                 decimalDisplay: MathEvaluator.shared.formatDecimal(newVal),
                                 decimalValue: newVal,
-                                dmsDisplay: MathEvaluator.shared.formatDMS(newVal)
+                                dmsDisplay: MathEvaluator.toDMSString(newVal)
                             )
                         } else {
                             document.insert(char: conv.title)

@@ -343,7 +343,7 @@ public struct LCDView: View {
                                 exactDisplay: MathEvaluator.shared.formatDecimal(newVal),
                                 decimalDisplay: MathEvaluator.shared.formatDecimal(newVal),
                                 decimalValue: newVal,
-                                dmsDisplay: MathEvaluator.shared.formatDMS(newVal)
+                                dmsDisplay: MathEvaluator.toDMSString(newVal)
                             )
                         } else {
                             state.document.insert(char: item.title)
