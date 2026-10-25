@@ -9,28 +9,24 @@ public struct LCDView: View {
     
     public var body: some View {
         ZStack {
-            // LCD Background with authentic ClassWiz greenish-grey tone
-            RoundedRectangle(cornerRadius: 6)
-                .fill(lcdBackgroundColor)
+            // Authentic dot matrix LCD background texture (Emulator res 135)
+            Image("lcd_bg")
+                .resizable(resizingMode: .tile)
+                .background(lcdColorTint)
+                .cornerRadius(4)
                 .overlay(
-                    // Subtle pixel dot grid pattern simulation
-                    Rectangle()
-                        .strokeBorder(Color.black.opacity(0.12), lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(Color.black.opacity(0.3), lineWidth: 1)
                 )
-                .shadow(color: Color.black.opacity(0.3), radius: 3, x: 0, y: 2)
             
-            VStack(spacing: 0) {
-                // Top Status Bar (ClassWiz Icons)
+            VStack(spacing: 2) {
+                // Top Status Bar (ClassWiz Indicators: S, A, M, STO, √□/, D/R/G, 𝒊, MAT, VCT)
                 statusBar
-                    .frame(height: 16)
-                    .padding(.horizontal, 8)
-                    .padding(.top, 4)
+                    .frame(height: 14)
+                    .padding(.horizontal, 6)
+                    .padding(.top, 2)
                 
-                Divider()
-                    .background(Color.black.opacity(0.15))
-                    .padding(.horizontal, 4)
-                
-                // Main LCD Screen Area (192 x 63 logic pixels)
+                // Active LCD Framebuffer Screen
                 ZStack {
                     if let err = state.activeError {
                         errorScreen(err)
@@ -43,27 +39,21 @@ public struct LCDView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
+                .padding(.horizontal, 6)
+                .padding(.bottom, 3)
             }
         }
-        .frame(height: 140)
     }
     
-    // Background color dynamically influenced by Contrast setting
-    private var lcdBackgroundColor: Color {
-        // Base greenish-grey: #CFD9C8
-        let baseR = 0.81 + (state.contrast - 0.5) * 0.1
-        let baseG = 0.85 + (state.contrast - 0.5) * 0.1
-        let baseB = 0.78 + (state.contrast - 0.5) * 0.1
-        return Color(red: min(1.0, max(0.5, baseR)),
-                     green: min(1.0, max(0.5, baseG)),
-                     blue: min(1.0, max(0.5, baseB)))
+    // Tint color modified by Contrast setting
+    private var lcdColorTint: Color {
+        let base = 0.82 + (state.contrast - 0.5) * 0.12
+        return Color(red: base * 0.96, green: base, blue: base * 0.92)
     }
     
-    // Status Bar with indicators
+    // Authentic Status Bar Indicators
     private var statusBar: some View {
-        HStack(spacing: 5) {
+        HStack(spacing: 4) {
             statusBadge(text: "S", isActive: state.isShiftActive)
             statusBadge(text: "A", isActive: state.isAlphaActive)
             statusBadge(text: "M", isActive: state.hasMemoryValue)
@@ -75,7 +65,6 @@ public struct LCDView: View {
             // Angle unit
             statusBadge(text: state.angleUnit.rawValue, isActive: true)
             
-            // Mode flags
             if state.currentMode == .complex {
                 statusBadge(text: "𝒊", isActive: true)
             }
@@ -89,7 +78,6 @@ public struct LCDView: View {
                 statusBadge(text: state.baseNRadix.rawValue, isActive: true)
             }
             
-            // Replay navigation indicator
             if !state.history.isEmpty {
                 Text("▲▼")
                     .font(.system(size: 8, weight: .bold, design: .monospaced))
@@ -105,28 +93,27 @@ public struct LCDView: View {
             .padding(.horizontal, 1)
     }
     
-    // Normal Math Input & Output Screen
     private var normalCalculationScreen: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            // Input Expression line (scrollable horizontally if needed)
+        VStack(alignment: .leading, spacing: 2) {
+            // Natural Textbook 2D Formula line
             ScrollView(.horizontal, showsIndicators: false) {
                 MathNodeSequenceView(
                     nodes: state.document.nodes,
                     cursorIndex: state.document.cursorIndex,
                     emptyPlaceholder: ""
                 )
-                .frame(minHeight: 34, alignment: .leading)
+                .frame(minHeight: 30, alignment: .leading)
             }
             
             Spacer()
             
-            // Result Display line (aligned right)
+            // Result Display line (aligned bottom-right)
             HStack {
                 Spacer()
                 if let res = state.currentResult {
                     resultText(for: res)
-                        .font(.system(size: 20, weight: .bold, design: .monospaced))
-                        .foregroundColor(Color.black.opacity(0.9))
+                        .font(.system(size: 19, weight: .bold, design: .monospaced))
+                        .foregroundColor(Color.black.opacity(0.92))
                 }
             }
         }
@@ -150,74 +137,74 @@ public struct LCDView: View {
         }
     }
     
-    // Authentic Error Screen
+    // Casio Error Screen
     private func errorScreen(_ err: CasioError) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(state.isVietnamese ? err.titleVi : err.titleEn)
-                .font(.system(size: 15, weight: .bold, design: .monospaced))
+                .font(.system(size: 14, weight: .bold, design: .monospaced))
                 .foregroundColor(Color.black)
             
             Spacer()
             
             HStack {
                 Text("[AC]")
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
                 Text(state.isVietnamese ? " :Hủy" : " :Cancel")
-                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                    .font(.system(size: 11, design: .monospaced))
                 
                 Spacer()
                 
                 Text("[◄][►]")
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
                 Text(state.isVietnamese ? ":Đến" : ":Goto")
-                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                    .font(.system(size: 11, design: .monospaced))
             }
             .foregroundColor(Color.black.opacity(0.85))
         }
     }
     
-    // Authentic SOLVE Screen
+    // SOLVE Screen
     private func solveScreen(xVal: String, lrVal: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text("x =")
-                    .font(.system(size: 15, weight: .bold, design: .monospaced))
+                    .font(.system(size: 14, weight: .bold, design: .monospaced))
                 Spacer()
                 Text(xVal)
-                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    .font(.system(size: 15, weight: .bold, design: .monospaced))
             }
             HStack {
                 Text("L - R =")
-                    .font(.system(size: 13, weight: .regular, design: .monospaced))
+                    .font(.system(size: 12, design: .monospaced))
                 Spacer()
                 Text(lrVal)
-                    .font(.system(size: 13, weight: .regular, design: .monospaced))
+                    .font(.system(size: 12, design: .monospaced))
             }
             Spacer()
             HStack {
                 Spacer()
                 Text("[AC] :Xong")
-                    .font(.system(size: 11, weight: .regular, design: .monospaced))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.7))
             }
         }
     }
     
-    // CALC Prompt Screen
+    // CALC Screen
     private func calcPromptScreen(varName: String, curVal: String) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text("\(varName)?")
-                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    .font(.system(size: 15, weight: .bold, design: .monospaced))
                 Spacer()
                 Text(curVal)
-                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                    .font(.system(size: 15, weight: .bold, design: .monospaced))
             }
             Spacer()
             HStack {
                 Spacer()
                 Text("[=] :Thực hiện")
-                    .font(.system(size: 11, weight: .regular, design: .monospaced))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.7))
             }
         }

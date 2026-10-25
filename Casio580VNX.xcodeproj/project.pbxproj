@@ -24,6 +24,7 @@
 		1100000F2C00000100000001 /* OptionMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1200000F2C00000100000001 /* OptionMenuView.swift */; };
 		110000102C00000100000001 /* CalculatorMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000102C00000100000001 /* CalculatorMainView.swift */; };
 		110000112C00000100000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 120000112C00000100000001 /* Assets.xcassets */; };
+		110000122C00000100000001 /* ExtractedFaceplateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000132C00000100000001 /* ExtractedFaceplateData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		120000102C00000100000001 /* CalculatorMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorMainView.swift; sourceTree = "<group>"; };
 		120000112C00000100000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		120000122C00000100000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		120000132C00000100000001 /* ExtractedFaceplateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtractedFaceplateData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				120000062C00000100000001 /* MatrixVector.swift */,
 				120000072C00000100000001 /* EquationSolver.swift */,
 				120000082C00000100000001 /* StatisticsEngine.swift */,
+				120000132C00000100000001 /* ExtractedFaceplateData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 				1100000E2C00000100000001 /* SetupMenuView.swift in Sources */,
 				1100000F2C00000100000001 /* OptionMenuView.swift in Sources */,
 				110000102C00000100000001 /* CalculatorMainView.swift in Sources */,
+				110000122C00000100000001 /* ExtractedFaceplateData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

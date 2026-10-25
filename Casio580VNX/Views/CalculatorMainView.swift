@@ -2,96 +2,92 @@ import SwiftUI
 
 public struct CalculatorMainView: View {
     @StateObject private var state = CalculatorState()
+    @State private var pressedKeyId: Int? = nil
     
     public init() {}
     
     public var body: some View {
-        ZStack {
-            // Calculator body casing background (Authentic ClassWiz matte dark casing)
-            Color(red: 0.11, green: 0.12, blue: 0.14)
-                .edgesIgnoringSafeArea(.all)
+        GeometryReader { geo in
+            let canvasW = ExtractedFaceplateData.canvasWidth   // 644
+            let canvasH = ExtractedFaceplateData.canvasHeight  // 1250
             
-            VStack(spacing: 8) {
-                // Top Header Branding: CASIO fx-580VN X & Solar panel simulation
-                brandingHeader
-                    .padding(.horizontal, 16)
-                    .padding(.top, 4)
-                
-                // Beveled LCD Screen container
-                LCDView(state: state)
-                    .padding(.horizontal, 12)
-                
-                // Keypad Area with 50 keys
-                KeypadView(state: state)
-                    .padding(.horizontal, 10)
-                    .padding(.bottom, 6)
-            }
-            .padding(.vertical, 4)
+            // Calculate scale to fit screen preserving exact aspect ratio
+            let scaleX = geo.size.width / canvasW
+            let scaleY = geo.size.height / canvasH
+            let scale = min(scaleX, scaleY)
             
-            // Popups & Overlays
-            if state.activeOverlay == .menu {
-                MenuGridView(state: state)
-            } else if case .setup(let page) = state.activeOverlay {
-                SetupMenuView(state: state, page: page)
-            } else if state.activeOverlay == .option {
-                OptionMenuView(state: state)
-            } else if state.activeOverlay == .constPicker {
-                ConstantsPickerView(state: state)
-            } else if state.activeOverlay == .convPicker {
-                ConversionsPickerView(state: state)
+            let renderedW = canvasW * scale
+            let renderedH = canvasH * scale
+            let offsetX = (geo.size.width - renderedW) / 2.0
+            let offsetY = (geo.size.height - renderedH) / 2.0
+            
+            ZStack {
+                // Background dark matte border
+                Color(red: 0.08, green: 0.09, blue: 0.10)
+                    .edgesIgnoringSafeArea(.all)
+                
+                // Centered Calculator Faceplate Container
+                ZStack(alignment: .topLeading) {
+                    // 1. Authentic Faceplate Skin (Extracted from CLASSWIZ_P20.dll res 103)
+                    Image("casio_faceplate")
+                        .resizable()
+                        .frame(width: renderedW, height: renderedH)
+                    
+                    // 2. LCD Display Framebuffer (Positioned at exact extracted offset 130, 256)
+                    let dRect = ExtractedFaceplateData.displayRect
+                    LCDView(state: state)
+                        .frame(width: dRect.width * scale, height: dRect.height * scale)
+                        .offset(x: dRect.origin.x * scale, y: dRect.origin.y * scale)
+                    
+                    // 3. 50 Physical Key Hitboxes Overlay (From CLASSWIZ_P20.dll 0x10004010)
+                    ForEach(ExtractedFaceplateData.keyHitboxes) { hitbox in
+                        let kw = hitbox.width * scale
+                        let kh = hitbox.height * scale
+                        let kx = hitbox.x * scale
+                        let ky = hitbox.y * scale
+                        
+                        ZStack {
+                            // Touch highlight feedback
+                            if pressedKeyId == hitbox.id {
+                                RoundedRectangle(cornerRadius: hitbox.id < 8 ? kw / 2.0 : 6)
+                                    .fill(Color.white.opacity(0.35))
+                                    .frame(width: kw, height: kh)
+                            }
+                        }
+                        .frame(width: kw, height: kh)
+                        .contentShape(Rectangle())
+                        .offset(x: kx, y: ky)
+                        .simultaneousGesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { _ in
+                                    if pressedKeyId != hitbox.id {
+                                        pressedKeyId = hitbox.id
+                                        state.handleKeyPress(key: hitbox.key)
+                                    }
+                                }
+                                .onEnded { _ in
+                                    pressedKeyId = nil
+                                }
+                        )
+                    }
+                }
+                .frame(width: renderedW, height: renderedH)
+                .offset(x: offsetX, y: offsetY)
+                
+                // Interactive Overlays
+                if state.activeOverlay == .menu {
+                    MenuGridView(state: state)
+                } else if case .setup(let page) = state.activeOverlay {
+                    SetupMenuView(state: state, page: page)
+                } else if state.activeOverlay == .option {
+                    OptionMenuView(state: state)
+                } else if state.activeOverlay == .constPicker {
+                    ConstantsPickerView(state: state)
+                } else if state.activeOverlay == .convPicker {
+                    ConversionsPickerView(state: state)
+                }
             }
         }
         .preferredColorScheme(.dark)
-    }
-    
-    // Branding header with authentic CASIO and ClassWiz badges
-    private var brandingHeader: some View {
-        HStack(alignment: .center) {
-            VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 6) {
-                    Text("CASIO")
-                        .font(.system(size: 17, weight: .black, design: .serif))
-                        .foregroundColor(.white)
-                    Text("fx-580VN X")
-                        .font(.system(size: 13, weight: .heavy, design: .rounded))
-                        .foregroundColor(Color(white: 0.85))
-                }
-                Text("CLASSWIZ")
-                    .font(.system(size: 9, weight: .bold, design: .monospaced))
-                    .foregroundColor(Color(red: 0.45, green: 0.70, blue: 0.95))
-            }
-            
-            Spacer()
-            
-            // TWO WAY POWER (Solar Panel Simulation)
-            HStack(spacing: 4) {
-                VStack(alignment: .trailing, spacing: 1) {
-                    Text("TWO WAY POWER")
-                        .font(.system(size: 6, weight: .bold))
-                        .foregroundColor(Color(white: 0.6))
-                    Text("NATURAL-V.P.A.M.")
-                        .font(.system(size: 6, weight: .bold))
-                        .foregroundColor(Color(white: 0.6))
-                }
-                
-                // Photovoltaic cell look
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(
-                        LinearGradient(
-                            colors: [Color(red: 0.22, green: 0.12, blue: 0.10), Color(red: 0.35, green: 0.18, blue: 0.15)],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .frame(width: 52, height: 18)
-                    .overlay(
-                        HStack(spacing: 12) {
-                            Rectangle().fill(Color.black.opacity(0.4)).frame(width: 1)
-                            Rectangle().fill(Color.black.opacity(0.4)).frame(width: 1)
-                            Rectangle().fill(Color.black.opacity(0.4)).frame(width: 1)
-                        }
-                    )
-            }
-        }
     }
 }
