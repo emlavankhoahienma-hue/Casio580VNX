@@ -71,6 +71,14 @@ public struct UnitConversion: Identifiable, Hashable {
     public let title: String
     public let category: String
     public let convert: (Double) -> Double
+    
+    public static func == (lhs: UnitConversion, rhs: UnitConversion) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 public struct ConversionsData {
