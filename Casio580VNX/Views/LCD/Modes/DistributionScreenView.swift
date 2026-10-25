@@ -79,13 +79,14 @@ public struct DistributionScreenView: View {
     // 2. Param Prompts
     private var paramPromptView: some View {
         let params = paramDefinitions(for: state.distSubChoice)
+        let count = params.count
         return VStack(alignment: .leading, spacing: 3) {
             Text(distTitle(for: state.distSubChoice))
                 .font(.system(size: 11, weight: .bold, design: .monospaced))
                 .padding(.horizontal, 8)
             
             VStack(spacing: 3) {
-                ForEach(0..<params.count, id: \.self) { idx in
+                ForEach(Array(0..<count), id: \.self) { (idx: Int) in
                     let isCurrent = (state.distParamIndex == idx)
                     let pVal = (idx < state.distParams.count) ? state.distParams[idx] : 0.0
                     let displayVal = isCurrent ? (state.distInputBuf.isEmpty ? formatVal(pVal) : state.distInputBuf) : formatVal(pVal)
@@ -98,7 +99,7 @@ public struct DistributionScreenView: View {
                         Text(displayVal)
                             .font(.system(size: 12, weight: .bold, design: .monospaced))
                             .padding(.horizontal, 6)
-                            .frame(minWidth: 50, height: 18, alignment: .trailing)
+                            .frame(width: 60, height: 18, alignment: .trailing)
                             .background(isCurrent ? Color.black : Color.clear)
                             .foregroundColor(isCurrent ? Color(red: 0.88, green: 0.94, blue: 0.88) : Color.black)
                             .cornerRadius(2)

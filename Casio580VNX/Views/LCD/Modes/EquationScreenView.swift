@@ -259,7 +259,8 @@ public struct EquationScreenView: View {
     // 7. Polynomial Results View
     private func polyResultView(poly: EquationSolver.PolynomialResult) -> some View {
         VStack(spacing: 2) {
-            let totalItems = poly.roots.count + (poly.minMax != nil ? 2 : 0)
+            let hasVertex = (poly.vertexX != nil && poly.vertexY != nil)
+            let totalItems = poly.roots.count + (hasVertex ? 2 : 0)
             let curIdx = state.eqRootViewIdx % max(1, totalItems)
             
             if curIdx < poly.roots.count {
@@ -275,21 +276,22 @@ public struct EquationScreenView: View {
                 
                 HStack {
                     Spacer()
-                    if abs(r.im) < 1e-9 {
-                        Text(formatResultValue(r.re))
+                    if abs(r.imag) < 1e-9 {
+                        Text(formatResultValue(r.real))
                             .font(.system(size: 20, weight: .bold, design: .monospaced))
                     } else {
-                        let sign = r.im >= 0 ? "+" : "-"
-                        Text("\(formatResultValue(r.re)) \(sign) \(formatResultValue(abs(r.im)))i")
+                        let sign = r.imag >= 0 ? "+" : "-"
+                        Text("\(formatResultValue(r.real)) \(sign) \(formatResultValue(abs(r.imag)))i")
                             .font(.system(size: 17, weight: .bold, design: .monospaced))
                     }
                 }
                 .padding(.horizontal, 12)
                 .padding(.bottom, 6)
-            } else if let mm = poly.minMax {
+            } else if hasVertex, let vx = poly.vertexX, let vy = poly.vertexY {
                 let isY = (curIdx == poly.roots.count + 1)
+                let isMin = poly.isMinimum ?? true
                 HStack {
-                    let title = mm.isMinimum ? (state.isVietnamese ? "Cực tiểu của y=ax²+bx+c" : "Min of y=ax²+bx+c") : (state.isVietnamese ? "Cực đại của y=ax²+bx+c" : "Max of y=ax²+bx+c")
+                    let title = isMin ? (state.isVietnamese ? "Cực tiểu của y=ax²+bx+c" : "Min of y=ax²+bx+c") : (state.isVietnamese ? "Cực đại của y=ax²+bx+c" : "Max of y=ax²+bx+c")
                     Text(title)
                         .font(.system(size: 10, weight: .bold, design: .monospaced))
                     Spacer()
@@ -307,7 +309,7 @@ public struct EquationScreenView: View {
                 
                 HStack {
                     Spacer()
-                    Text(formatResultValue(isY ? mm.y : mm.x))
+                    Text(formatResultValue(isY ? vy : vx))
                         .font(.system(size: 19, weight: .bold, design: .monospaced))
                 }
                 .padding(.horizontal, 12)

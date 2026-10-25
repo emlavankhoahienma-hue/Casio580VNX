@@ -192,6 +192,11 @@ public struct CasioVector: Equatable, Hashable {
     public var y: Double { get { components[1] } set { components[1] = newValue } }
     public var z: Double { get { components.count > 2 ? components[2] : 0.0 } set { if components.count > 2 { components[2] = newValue } } }
     
+    public subscript(index: Int) -> Double {
+        get { components[index] }
+        set { components[index] = newValue }
+    }
+    
     public var norm: Double {
         sqrt(components.reduce(0.0) { $0 + $1 * $1 })
     }

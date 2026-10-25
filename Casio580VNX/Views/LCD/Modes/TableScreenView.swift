@@ -92,7 +92,7 @@ public struct TableScreenView: View {
             Text(displayVal)
                 .font(.system(size: 12, weight: .bold, design: .monospaced))
                 .padding(.horizontal, 6)
-                .frame(minWidth: 40, height: 18, alignment: .trailing)
+                .frame(width: 50, height: 18, alignment: .trailing)
                 .background(isCurrent ? Color.black : Color.clear)
                 .foregroundColor(isCurrent ? Color(red: 0.88, green: 0.94, blue: 0.88) : Color.black)
                 .cornerRadius(2)
