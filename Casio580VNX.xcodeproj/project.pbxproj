@@ -25,6 +25,17 @@
 		110000102C00000100000001 /* CalculatorMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000102C00000100000001 /* CalculatorMainView.swift */; };
 		110000112C00000100000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 120000112C00000100000001 /* Assets.xcassets */; };
 		110000122C00000100000001 /* ExtractedFaceplateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000132C00000100000001 /* ExtractedFaceplateData.swift */; };
+
+		110000202C00000100000001 /* EquationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000202C00000100000001 /* EquationScreenView.swift */; };
+		110000212C00000100000001 /* InequalityScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000212C00000100000001 /* InequalityScreenView.swift */; };
+		110000222C00000100000001 /* RatioScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000222C00000100000001 /* RatioScreenView.swift */; };
+		110000232C00000100000001 /* TableScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000232C00000100000001 /* TableScreenView.swift */; };
+		110000242C00000100000001 /* SpreadsheetScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000242C00000100000001 /* SpreadsheetScreenView.swift */; };
+		110000252C00000100000001 /* MatrixScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000252C00000100000001 /* MatrixScreenView.swift */; };
+		110000262C00000100000001 /* VectorScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000262C00000100000001 /* VectorScreenView.swift */; };
+		110000272C00000100000001 /* StatisticsScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000272C00000100000001 /* StatisticsScreenView.swift */; };
+		110000282C00000100000001 /* DistributionScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000282C00000100000001 /* DistributionScreenView.swift */; };
+		110000292C00000100000001 /* BaseNScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000292C00000100000001 /* BaseNScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +59,17 @@
 		120000112C00000100000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		120000122C00000100000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		120000132C00000100000001 /* ExtractedFaceplateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtractedFaceplateData.swift; sourceTree = "<group>"; };
+
+		120000202C00000100000001 /* EquationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/EquationScreenView.swift; sourceTree = "<group>"; };
+		120000212C00000100000001 /* InequalityScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/InequalityScreenView.swift; sourceTree = "<group>"; };
+		120000222C00000100000001 /* RatioScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/RatioScreenView.swift; sourceTree = "<group>"; };
+		120000232C00000100000001 /* TableScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/TableScreenView.swift; sourceTree = "<group>"; };
+		120000242C00000100000001 /* SpreadsheetScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/SpreadsheetScreenView.swift; sourceTree = "<group>"; };
+		120000252C00000100000001 /* MatrixScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/MatrixScreenView.swift; sourceTree = "<group>"; };
+		120000262C00000100000001 /* VectorScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/VectorScreenView.swift; sourceTree = "<group>"; };
+		120000272C00000100000001 /* StatisticsScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/StatisticsScreenView.swift; sourceTree = "<group>"; };
+		120000282C00000100000001 /* DistributionScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/DistributionScreenView.swift; sourceTree = "<group>"; };
+		120000292C00000100000001 /* BaseNScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCD/Modes/BaseNScreenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +130,16 @@
 			children = (
 				120000092C00000100000001 /* MathNode2DView.swift */,
 				1200000A2C00000100000001 /* LCDView.swift */,
+				120000202C00000100000001 /* EquationScreenView.swift */,
+				120000212C00000100000001 /* InequalityScreenView.swift */,
+				120000222C00000100000001 /* RatioScreenView.swift */,
+				120000232C00000100000001 /* TableScreenView.swift */,
+				120000242C00000100000001 /* SpreadsheetScreenView.swift */,
+				120000252C00000100000001 /* MatrixScreenView.swift */,
+				120000262C00000100000001 /* VectorScreenView.swift */,
+				120000272C00000100000001 /* StatisticsScreenView.swift */,
+				120000282C00000100000001 /* DistributionScreenView.swift */,
+				120000292C00000100000001 /* BaseNScreenView.swift */,
 				1200000B2C00000100000001 /* CasioKeyButton.swift */,
 				1200000C2C00000100000001 /* KeypadView.swift */,
 				1200000D2C00000100000001 /* MenuGridView.swift */,
@@ -214,6 +246,16 @@
 				110000082C00000100000001 /* StatisticsEngine.swift in Sources */,
 				110000092C00000100000001 /* MathNode2DView.swift in Sources */,
 				1100000A2C00000100000001 /* LCDView.swift in Sources */,
+				110000202C00000100000001 /* EquationScreenView.swift in Sources */,
+				110000212C00000100000001 /* InequalityScreenView.swift in Sources */,
+				110000222C00000100000001 /* RatioScreenView.swift in Sources */,
+				110000232C00000100000001 /* TableScreenView.swift in Sources */,
+				110000242C00000100000001 /* SpreadsheetScreenView.swift in Sources */,
+				110000252C00000100000001 /* MatrixScreenView.swift in Sources */,
+				110000262C00000100000001 /* VectorScreenView.swift in Sources */,
+				110000272C00000100000001 /* StatisticsScreenView.swift in Sources */,
+				110000282C00000100000001 /* DistributionScreenView.swift in Sources */,
+				110000292C00000100000001 /* BaseNScreenView.swift in Sources */,
 				1100000B2C00000100000001 /* CasioKeyButton.swift in Sources */,
 				1100000C2C00000100000001 /* KeypadView.swift in Sources */,
 				1100000D2C00000100000001 /* MenuGridView.swift in Sources */,

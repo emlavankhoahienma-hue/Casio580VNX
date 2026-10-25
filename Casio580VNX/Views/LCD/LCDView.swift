@@ -42,21 +42,44 @@ public struct LCDView: View {
                 case .calcPrompt(let varName, let curVal):
                     calcPromptScreen(varName: varName, curVal: curVal)
                 case .none:
-                    VStack(spacing: 0) {
-                        // Top Status Bar (Only in normal calculation mode!)
-                        statusBar
-                            .frame(height: 18)
-                            .padding(.horizontal, 8)
-                            .padding(.top, 2)
-                        
-                        Divider()
-                            .background(Color.black.opacity(0.12))
-                            .padding(.horizontal, 6)
-                        
-                        // 2D Natural Math Textbook Calculation line & Result
-                        normalCalculationScreen
-                            .padding(.horizontal, 8)
-                            .padding(.bottom, 4)
+                    switch state.currentMode {
+                    case .equation:
+                        EquationScreenView(state: state)
+                    case .inequality:
+                        InequalityScreenView(state: state)
+                    case .ratio:
+                        RatioScreenView(state: state)
+                    case .table:
+                        TableScreenView(state: state)
+                    case .spreadsheet:
+                        SpreadsheetScreenView(state: state)
+                    case .matrix:
+                        MatrixScreenView(state: state)
+                    case .vector:
+                        VectorScreenView(state: state)
+                    case .statistics:
+                        StatisticsScreenView(state: state)
+                    case .distribution:
+                        DistributionScreenView(state: state)
+                    case .baseN:
+                        BaseNScreenView(state: state)
+                    case .calculate, .complex:
+                        VStack(spacing: 0) {
+                            // Top Status Bar (Only in normal calculation mode!)
+                            statusBar
+                                .frame(height: 18)
+                                .padding(.horizontal, 8)
+                                .padding(.top, 2)
+                            
+                            Divider()
+                                .background(Color.black.opacity(0.12))
+                                .padding(.horizontal, 6)
+                            
+                            // 2D Natural Math Textbook Calculation line & Result
+                            normalCalculationScreen
+                                .padding(.horizontal, 8)
+                                .padding(.bottom, 4)
+                        }
                     }
                 }
             }

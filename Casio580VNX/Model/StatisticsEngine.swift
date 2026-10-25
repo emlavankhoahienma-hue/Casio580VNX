@@ -168,6 +168,22 @@ public class StatisticsEngine {
         return (pow(lambda, Double(x)) * exp(-lambda)) / fact
     }
     
+    public static func binomialCD(x: Int, n: Int, p: Double) throws -> Double {
+        var sum = 0.0
+        for k in 0...max(0, x) {
+            sum += try binomialPD(x: k, n: n, p: p)
+        }
+        return min(1.0, sum)
+    }
+    
+    public static func poissonCD(x: Int, lambda: Double) throws -> Double {
+        var sum = 0.0
+        for k in 0...max(0, x) {
+            sum += try poissonPD(x: k, lambda: lambda)
+        }
+        return min(1.0, sum)
+    }
+    
     // MARK: - Mode 8: Table Generation
     public struct TableRow: Identifiable {
         public var id: Int

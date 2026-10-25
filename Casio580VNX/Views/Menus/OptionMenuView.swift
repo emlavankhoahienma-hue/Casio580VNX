@@ -45,15 +45,9 @@ public struct OptionMenuView: View {
                 switch state.currentMode {
                 case .calculate:
                     VStack(alignment: .leading, spacing: 3) {
-                        Button(action: { state.activeOverlay = .option(subCategory: .hyperbolic) }) {
-                            Text("1: " + (state.isVietnamese ? "Hàm Hyperbolic" : "Hyperbolic Func"))
-                        }
-                        Button(action: { state.activeOverlay = .option(subCategory: .angleUnit) }) {
-                            Text("2: " + (state.isVietnamese ? "Đơn vị góc" : "Angle Unit"))
-                        }
-                        Button(action: { state.activeOverlay = .option(subCategory: .engineerSymbol) }) {
-                            Text("3: " + (state.isVietnamese ? "Ký hiệu KT" : "Engineer Symbol"))
-                        }
+                        Text("1: " + (state.isVietnamese ? "Hàm Hyperbolic" : "Hyperbolic Func"))
+                        Text("2: " + (state.isVietnamese ? "Đơn vị góc" : "Angle Unit"))
+                        Text("3: " + (state.isVietnamese ? "Ký hiệu KT" : "Engineer Symbol"))
                     }
                     .font(.system(size: 12, weight: .bold, design: .monospaced))
                     .foregroundColor(.black)
@@ -63,13 +57,31 @@ public struct OptionMenuView: View {
                 case .complex:
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(spacing: 16) {
-                            Button(action: { state.document.insert(char: "i"); state.activeOverlay = .none }) { Text("1: i") }
-                            Button(action: { state.document.insert(char: "∠"); state.activeOverlay = .none }) { Text("2: ∠") }
-                            Button(action: { state.document.insert(char: "Conjg("); state.activeOverlay = .none }) { Text("3: Conjg") }
+                            Text("1: i")
+                            Text("2: ∠")
+                            Text("3: Conjg")
                         }
                         HStack(spacing: 16) {
-                            Button(action: { state.document.insert(char: "▸r∠θ"); state.activeOverlay = .none }) { Text("4: ▸r∠θ") }
-                            Button(action: { state.document.insert(char: "▸a+bi"); state.activeOverlay = .none }) { Text("5: ▸a+bi") }
+                            Text("4: ▸r∠θ")
+                            Text("5: ▸a+bi")
+                        }
+                    }
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 10)
+                    .frame(height: 78, alignment: .leading)
+                    
+                case .baseN:
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 16) {
+                            Text("1: and")
+                            Text("2: or")
+                            Text("3: xor")
+                        }
+                        HStack(spacing: 16) {
+                            Text("4: xnor")
+                            Text("5: Not")
+                            Text("6: Neg")
                         }
                     }
                     .font(.system(size: 12, weight: .bold, design: .monospaced))
@@ -110,6 +122,30 @@ public struct OptionMenuView: View {
                             Text("6:VctAns")
                             Text("7:Dot (•)")
                         }
+                    }
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 10)
+                    .frame(height: 78, alignment: .leading)
+                    
+                case .statistics:
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("1: " + (state.isVietnamese ? "Chọn dạng (Select Type)" : "Select Type"))
+                        Text("2: " + (state.isVietnamese ? "Dữ liệu (Data)" : "Data Editor"))
+                        Text("3: " + (state.isVietnamese ? "Tính 1-Biến (1-Var Calc)" : "1-Variable Calc"))
+                        Text("4: " + (state.isVietnamese ? "Tính Thống kê (2-Var Calc)" : "2-Variable Calc"))
+                    }
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 10)
+                    .frame(height: 78, alignment: .leading)
+                    
+                case .spreadsheet:
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("1: " + (state.isVietnamese ? "Điền công thức (Fill Formula)" : "Fill Formula"))
+                        Text("2: " + (state.isVietnamese ? "Điền giá trị (Fill Value)" : "Fill Value"))
+                        Text("3: " + (state.isVietnamese ? "Tạo dãy số (Generate)" : "Generate"))
+                        Text("4: " + (state.isVietnamese ? "Tiện ích (Min/Max/Sum)" : "Min/Max/Sum"))
                     }
                     .font(.system(size: 11, weight: .bold, design: .monospaced))
                     .foregroundColor(.black)
@@ -172,14 +208,14 @@ public struct OptionMenuView: View {
                 case .hyperbolic:
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(spacing: 12) {
-                            Button(action: { state.document.insert(char: "sinh("); state.activeOverlay = .none }) { Text("1:sinh") }
-                            Button(action: { state.document.insert(char: "cosh("); state.activeOverlay = .none }) { Text("2:cosh") }
-                            Button(action: { state.document.insert(char: "tanh("); state.activeOverlay = .none }) { Text("3:tanh") }
+                            Text("1:sinh")
+                            Text("2:cosh")
+                            Text("3:tanh")
                         }
                         HStack(spacing: 12) {
-                            Button(action: { state.document.insert(char: "asinh("); state.activeOverlay = .none }) { Text("4:sinh⁻¹") }
-                            Button(action: { state.document.insert(char: "acosh("); state.activeOverlay = .none }) { Text("5:cosh⁻¹") }
-                            Button(action: { state.document.insert(char: "atanh("); state.activeOverlay = .none }) { Text("6:tanh⁻¹") }
+                            Text("4:sinh⁻¹")
+                            Text("5:cosh⁻¹")
+                            Text("6:tanh⁻¹")
                         }
                     }
                     .font(.system(size: 12, weight: .bold, design: .monospaced))
@@ -189,9 +225,9 @@ public struct OptionMenuView: View {
                     
                 case .angleUnit:
                     VStack(alignment: .leading, spacing: 4) {
-                        Button(action: { state.document.insert(char: "°"); state.activeOverlay = .none }) { Text("1: ° (Độ / Deg)") }
-                        Button(action: { state.document.insert(char: "r"); state.activeOverlay = .none }) { Text("2: r (Radian)") }
-                        Button(action: { state.document.insert(char: "g"); state.activeOverlay = .none }) { Text("3: g (Gradian)") }
+                        Text("1: ° (Độ / Deg)")
+                        Text("2: r (Radian)")
+                        Text("3: g (Gradian)")
                     }
                     .font(.system(size: 12, weight: .bold, design: .monospaced))
                     .foregroundColor(.black)
@@ -200,21 +236,18 @@ public struct OptionMenuView: View {
                     
                 case .engineerSymbol:
                     VStack(alignment: .leading, spacing: 4) {
-                        HStack(spacing: 12) {
-                            Text("1:m")
-                            Text("2:μ")
-                            Text("3:n")
-                            Text("4:p")
-                            Text("5:f")
+                        HStack(spacing: 14) {
+                            Text("1: m (10⁻³)")
+                            Text("2: μ (10⁻⁶)")
+                            Text("3: n (10⁻⁹)")
                         }
-                        HStack(spacing: 12) {
-                            Text("6:k")
-                            Text("7:M")
-                            Text("8:G")
-                            Text("9:T")
+                        HStack(spacing: 14) {
+                            Text("4: k (10³)")
+                            Text("5: M (10⁶)")
+                            Text("6: G (10⁹)")
                         }
                     }
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
                     .foregroundColor(.black)
                     .padding(.horizontal, 10)
                     .frame(height: 78, alignment: .leading)
@@ -222,11 +255,16 @@ public struct OptionMenuView: View {
             }
             
             // Footer
+            Rectangle()
+                .fill(Color.black.opacity(0.2))
+                .frame(height: 1)
+                .padding(.horizontal, 6)
+            
             HStack {
-                Text(state.isVietnamese ? "Bấm số để chèn" : "Press number to insert")
+                Text(state.isVietnamese ? "1~6: Chọn" : "1~6: Select")
                     .font(.system(size: 10, design: .monospaced))
                 Spacer()
-                Text("[AC]: " + (state.isVietnamese ? "Thoát" : "Cancel"))
+                Text("[AC]: " + (state.isVietnamese ? "Quay lại" : "Back"))
                     .font(.system(size: 10, weight: .bold, design: .monospaced))
             }
             .foregroundColor(Color.black.opacity(0.85))
