@@ -1,0 +1,346 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		110000012C00000100000001 /* Casio580VNXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000012C00000100000001 /* Casio580VNXApp.swift */; };
+		110000022C00000100000001 /* CalculatorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000022C00000100000001 /* CalculatorState.swift */; };
+		110000032C00000100000001 /* MathNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000032C00000100000001 /* MathNode.swift */; };
+		110000042C00000100000001 /* MathEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000042C00000100000001 /* MathEvaluator.swift */; };
+		110000052C00000100000001 /* ConstantsAndUnits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000052C00000100000001 /* ConstantsAndUnits.swift */; };
+		110000062C00000100000001 /* MatrixVector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000062C00000100000001 /* MatrixVector.swift */; };
+		110000072C00000100000001 /* EquationSolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000072C00000100000001 /* EquationSolver.swift */; };
+		110000082C00000100000001 /* StatisticsEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000082C00000100000001 /* StatisticsEngine.swift */; };
+		110000092C00000100000001 /* MathNode2DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000092C00000100000001 /* MathNode2DView.swift */; };
+		1100000A2C00000100000001 /* LCDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1200000A2C00000100000001 /* LCDView.swift */; };
+		1100000B2C00000100000001 /* CasioKeyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1200000B2C00000100000001 /* CasioKeyButton.swift */; };
+		1100000C2C00000100000001 /* KeypadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1200000C2C00000100000001 /* KeypadView.swift */; };
+		1100000D2C00000100000001 /* MenuGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1200000D2C00000100000001 /* MenuGridView.swift */; };
+		1100000E2C00000100000001 /* SetupMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1200000E2C00000100000001 /* SetupMenuView.swift */; };
+		1100000F2C00000100000001 /* OptionMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1200000F2C00000100000001 /* OptionMenuView.swift */; };
+		110000102C00000100000001 /* CalculatorMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120000102C00000100000001 /* CalculatorMainView.swift */; };
+		110000112C00000100000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 120000112C00000100000001 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		130000012C00000100000001 /* Casio580VNX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Casio580VNX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		120000012C00000100000001 /* Casio580VNXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Casio580VNXApp.swift; sourceTree = "<group>"; };
+		120000022C00000100000001 /* CalculatorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorState.swift; sourceTree = "<group>"; };
+		120000032C00000100000001 /* MathNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathNode.swift; sourceTree = "<group>"; };
+		120000042C00000100000001 /* MathEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathEvaluator.swift; sourceTree = "<group>"; };
+		120000052C00000100000001 /* ConstantsAndUnits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsAndUnits.swift; sourceTree = "<group>"; };
+		120000062C00000100000001 /* MatrixVector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixVector.swift; sourceTree = "<group>"; };
+		120000072C00000100000001 /* EquationSolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquationSolver.swift; sourceTree = "<group>"; };
+		120000082C00000100000001 /* StatisticsEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsEngine.swift; sourceTree = "<group>"; };
+		120000092C00000100000001 /* MathNode2DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathNode2DView.swift; sourceTree = "<group>"; };
+		1200000A2C00000100000001 /* LCDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCDView.swift; sourceTree = "<group>"; };
+		1200000B2C00000100000001 /* CasioKeyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasioKeyButton.swift; sourceTree = "<group>"; };
+		1200000C2C00000100000001 /* KeypadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadView.swift; sourceTree = "<group>"; };
+		1200000D2C00000100000001 /* MenuGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuGridView.swift; sourceTree = "<group>"; };
+		1200000E2C00000100000001 /* SetupMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupMenuView.swift; sourceTree = "<group>"; };
+		1200000F2C00000100000001 /* OptionMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionMenuView.swift; sourceTree = "<group>"; };
+		120000102C00000100000001 /* CalculatorMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorMainView.swift; sourceTree = "<group>"; };
+		120000112C00000100000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		120000122C00000100000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		140000012C00000100000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		150000012C00000100000001 = {
+			isa = PBXGroup;
+			children = (
+				150000022C00000100000001 /* Casio580VNX */,
+				150000072C00000100000001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		150000022C00000100000001 /* Casio580VNX */ = {
+			isa = PBXGroup;
+			children = (
+				150000032C00000100000001 /* App */,
+				150000042C00000100000001 /* Model */,
+				150000052C00000100000001 /* Views */,
+				150000062C00000100000001 /* Resources */,
+			);
+			path = Casio580VNX;
+			sourceTree = "<group>";
+		};
+		150000032C00000100000001 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				120000012C00000100000001 /* Casio580VNXApp.swift */,
+				120000022C00000100000001 /* CalculatorState.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		150000042C00000100000001 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				120000032C00000100000001 /* MathNode.swift */,
+				120000042C00000100000001 /* MathEvaluator.swift */,
+				120000052C00000100000001 /* ConstantsAndUnits.swift */,
+				120000062C00000100000001 /* MatrixVector.swift */,
+				120000072C00000100000001 /* EquationSolver.swift */,
+				120000082C00000100000001 /* StatisticsEngine.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		150000052C00000100000001 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				120000092C00000100000001 /* MathNode2DView.swift */,
+				1200000A2C00000100000001 /* LCDView.swift */,
+				1200000B2C00000100000001 /* CasioKeyButton.swift */,
+				1200000C2C00000100000001 /* KeypadView.swift */,
+				1200000D2C00000100000001 /* MenuGridView.swift */,
+				1200000E2C00000100000001 /* SetupMenuView.swift */,
+				1200000F2C00000100000001 /* OptionMenuView.swift */,
+				120000102C00000100000001 /* CalculatorMainView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		150000062C00000100000001 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				120000112C00000100000001 /* Assets.xcassets */,
+				120000122C00000100000001 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		150000072C00000100000001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				130000012C00000100000001 /* Casio580VNX.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		160000012C00000100000001 /* Casio580VNX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 170000012C00000100000001 /* Build configuration list for PBXNativeTarget "Casio580VNX" */;
+			buildPhases = (
+				180000012C00000100000001 /* Sources */,
+				140000012C00000100000001 /* Frameworks */,
+				190000012C00000100000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Casio580VNX;
+			productName = Casio580VNX;
+			productReference = 130000012C00000100000001 /* Casio580VNX.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1A0000012C00000100000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					160000012C00000100000001 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = 170000022C00000100000001 /* Build configuration list for PBXProject "Casio580VNX" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 150000012C00000100000001;
+			productRefGroup = 150000072C00000100000001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				160000012C00000100000001 /* Casio580VNX */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		190000012C00000100000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				110000112C00000100000001 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		180000012C00000100000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				110000012C00000100000001 /* Casio580VNXApp.swift in Sources */,
+				110000022C00000100000001 /* CalculatorState.swift in Sources */,
+				110000032C00000100000001 /* MathNode.swift in Sources */,
+				110000042C00000100000001 /* MathEvaluator.swift in Sources */,
+				110000052C00000100000001 /* ConstantsAndUnits.swift in Sources */,
+				110000062C00000100000001 /* MatrixVector.swift in Sources */,
+				110000072C00000100000001 /* EquationSolver.swift in Sources */,
+				110000082C00000100000001 /* StatisticsEngine.swift in Sources */,
+				110000092C00000100000001 /* MathNode2DView.swift in Sources */,
+				1100000A2C00000100000001 /* LCDView.swift in Sources */,
+				1100000B2C00000100000001 /* CasioKeyButton.swift in Sources */,
+				1100000C2C00000100000001 /* KeypadView.swift in Sources */,
+				1100000D2C00000100000001 /* MenuGridView.swift in Sources */,
+				1100000E2C00000100000001 /* SetupMenuView.swift in Sources */,
+				1100000F2C00000100000001 /* OptionMenuView.swift in Sources */,
+				110000102C00000100000001 /* CalculatorMainView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1B0000012C00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1B0000022C00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1B0000032C00000100000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Casio580VNX/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.antigravity.casio580vnx;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1B0000042C00000100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Casio580VNX/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.antigravity.casio580vnx;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		170000012C00000100000001 /* Build configuration list for PBXNativeTarget "Casio580VNX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B0000032C00000100000001 /* Debug */,
+				1B0000042C00000100000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		170000022C00000100000001 /* Build configuration list for PBXProject "Casio580VNX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B0000012C00000100000001 /* Debug */,
+				1B0000022C00000100000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1A0000012C00000100000001 /* Project object */;
+}
