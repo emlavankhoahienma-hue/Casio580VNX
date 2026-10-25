@@ -204,6 +204,7 @@ public enum CasioKey: String, CaseIterable, Identifiable {
         case .nine: return 9
         case .neg: return 10 // A
         case .dms: return 11 // B
+        case .xVar: return 12 // C
         default: return nil
         }
     }

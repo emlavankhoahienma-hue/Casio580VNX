@@ -73,19 +73,6 @@ public struct CalculatorMainView: View {
                 }
                 .frame(width: renderedW, height: renderedH)
                 .offset(x: offsetX, y: offsetY)
-                
-                // Interactive Overlays
-                if state.activeOverlay == .menu {
-                    MenuGridView(state: state)
-                } else if case .setup(let page) = state.activeOverlay {
-                    SetupMenuView(state: state, page: page)
-                } else if state.activeOverlay == .option {
-                    OptionMenuView(state: state)
-                } else if state.activeOverlay == .constPicker {
-                    ConstantsPickerView(state: state)
-                } else if state.activeOverlay == .convPicker {
-                    ConversionsPickerView(state: state)
-                }
             }
         }
         .preferredColorScheme(.dark)

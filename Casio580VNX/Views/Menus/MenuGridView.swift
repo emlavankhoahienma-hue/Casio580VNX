@@ -1,5 +1,6 @@
 import SwiftUI
 
+// MARK: - 1:1 Genuine ClassWiz LCD Menu Screen (Embedded directly inside 192x63 LCD)
 public struct MenuGridView: View {
     @ObservedObject var state: CalculatorState
     
@@ -7,74 +8,87 @@ public struct MenuGridView: View {
         self.state = state
     }
     
-    let columns = [
-        GridItem(.flexible(), spacing: 8),
-        GridItem(.flexible(), spacing: 8),
-        GridItem(.flexible(), spacing: 8)
-    ]
+    private var highlightedMode: CalculatorMode {
+        if case .menu(let mode) = state.activeOverlay {
+            return mode
+        }
+        return state.currentMode
+    }
     
     public var body: some View {
-        ZStack {
-            Color.black.opacity(0.85)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    state.activeOverlay = .none
-                }
+        VStack(spacing: 3) {
+            // Top Mode Title Header
+            HStack {
+                Text(state.isVietnamese ? highlightedMode.titleVi : highlightedMode.titleEn)
+                    .font(.system(size: 13, weight: .bold, design: .monospaced))
+                    .foregroundColor(.black)
+                Spacer()
+                Text("[\(highlightedMode.symbolText)]")
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .foregroundColor(Color.black.opacity(0.8))
+            }
+            .padding(.horizontal, 6)
+            .padding(.top, 2)
             
-            VStack(spacing: 12) {
-                HStack {
-                    Text(state.isVietnamese ? "CHỌN CHẾ ĐỘ (MENU)" : "SELECT MODE (MENU)")
-                        .font(.system(size: 14, weight: .bold, design: .monospaced))
-                        .foregroundColor(.white)
-                    Spacer()
-                    Button(action: { state.activeOverlay = .none }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 18))
-                            .foregroundColor(.gray)
-                    }
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(CalculatorMode.allCases) { mode in
-                            Button(action: {
-                                state.currentMode = mode
-                                state.activeOverlay = .none
-                                state.resetCurrentScreen()
-                            }) {
-                                VStack(spacing: 6) {
-                                    Image(systemName: mode.iconName)
-                                        .font(.system(size: 22))
-                                        .foregroundColor(state.currentMode == mode ? .yellow : .white)
-                                    
-                                    Text(state.isVietnamese ? mode.titleVi : mode.titleEn)
-                                        .font(.system(size: 11, weight: .medium, design: .rounded))
-                                        .foregroundColor(.white)
-                                        .multilineTextAlignment(.center)
-                                        .lineLimit(2)
-                                        .minimumScaleFactor(0.8)
+            Divider()
+                .background(Color.black.opacity(0.3))
+                .padding(.horizontal, 4)
+            
+            // Authentic 5-Icon Horizontal Strip
+            HStack(spacing: 8) {
+                let currentIdx = highlightedMode.rawValue
+                ForEach(-2...2, id: \.self) { offset in
+                    let targetIdx = ((currentIdx - 1 + offset + 12) % 12) + 1
+                    if let mode = CalculatorMode(rawValue: targetIdx) {
+                        let isSelected = (offset == 0)
+                        
+                        VStack(spacing: 1) {
+                            ZStack {
+                                if isSelected {
+                                    RoundedRectangle(cornerRadius: 3)
+                                        .fill(Color.black.opacity(0.9))
+                                        .frame(width: 34, height: 34)
+                                } else {
+                                    RoundedRectangle(cornerRadius: 3)
+                                        .stroke(Color.black.opacity(0.2), lineWidth: 1)
+                                        .frame(width: 32, height: 32)
                                 }
-                                .frame(maxWidth: .infinity, minHeight: 74)
-                                .background(state.currentMode == mode ? Color(red: 0.25, green: 0.35, blue: 0.5) : Color(white: 0.2))
-                                .cornerRadius(10)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(state.currentMode == mode ? Color.yellow : Color.clear, lineWidth: 1.5)
-                                )
+                                
+                                Image(mode.iconAsset)
+                                    .renderingMode(isSelected ? .template : .original)
+                                    .resizable()
+                                    .interpolation(.none)
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(isSelected ? Color(red: 0.85, green: 0.90, blue: 0.85) : .black)
+                                    .frame(width: 26, height: 26)
                             }
+                            
+                            Text(mode.symbolText)
+                                .font(.system(size: 9, weight: isSelected ? .bold : .regular, design: .monospaced))
+                                .foregroundColor(.black)
+                        }
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            state.currentMode = mode
+                            state.activeOverlay = .none
+                            state.resetCurrentScreen()
                         }
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 20)
                 }
             }
-            .frame(maxWidth: 380, maxHeight: 520)
-            .background(Color(red: 0.14, green: 0.16, blue: 0.19))
-            .cornerRadius(16)
-            .shadow(radius: 20)
-            .padding(16)
+            .frame(maxHeight: .infinity)
+            
+            // Bottom Helper Line
+            HStack {
+                Text("◄ [=]: " + (state.isVietnamese ? "Chọn" : "OK") + " ►")
+                    .font(.system(size: 9, weight: .medium, design: .monospaced))
+                Spacer()
+                Text("[AC]: " + (state.isVietnamese ? "Hủy" : "Cancel"))
+                    .font(.system(size: 9, weight: .medium, design: .monospaced))
+            }
+            .foregroundColor(Color.black.opacity(0.75))
+            .padding(.horizontal, 6)
+            .padding(.bottom, 2)
         }
     }
 }
