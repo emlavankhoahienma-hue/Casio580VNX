@@ -44,7 +44,7 @@ public struct MathNode2DView: View {
             case .sqrt(let radicand):
                 HStack(alignment: .top, spacing: 0) {
                     Text("√")
-                        .font(.system(size: 17, weight: .bold, design: .serif))
+                        .font(.system(size: 17, weight: .bold, design: .default))
                         .offset(y: -1)
                     VStack(alignment: .leading, spacing: 0) {
                         Rectangle()
@@ -62,7 +62,7 @@ public struct MathNode2DView: View {
                         .scaleEffect(0.7)
                         .offset(x: 2, y: -6)
                     Text("√")
-                        .font(.system(size: 17, weight: .bold, design: .serif))
+                        .font(.system(size: 17, weight: .bold, design: .default))
                     VStack(alignment: .leading, spacing: 0) {
                         Rectangle()
                             .fill(Color.black.opacity(0.85))
@@ -120,7 +120,7 @@ public struct MathNode2DView: View {
                         MathNodeSequenceView(nodes: upper, emptyPlaceholder: "□")
                             .scaleEffect(0.65)
                         Text("∫")
-                            .font(.system(size: 22, weight: .regular, design: .serif))
+                            .font(.system(size: 22, weight: .regular, design: .default))
                         MathNodeSequenceView(nodes: lower, emptyPlaceholder: "□")
                             .scaleEffect(0.65)
                     }

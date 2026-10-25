@@ -26,9 +26,9 @@ public struct MenuGridView: View {
     }
     
     public var body: some View {
-        ZStack(alignment: .topTrailing) {
-            VStack(spacing: 0) {
-                // 1. Top 2 Rows of 4 Icons (Total Height: 96 pt = 2 x 48 pt)
+        VStack(spacing: 0) {
+            // 1. Top 2 Rows of 4 Icons + Scroll indicator (Total Height: 96 pt = 2 x 48 pt)
+            HStack(spacing: 0) {
                 VStack(spacing: 0) {
                     ForEach(0..<2, id: \.self) { displayRow in
                         let actualRow = scrollRow + displayRow
@@ -42,25 +42,19 @@ public struct MenuGridView: View {
                                         // Selected Inverted Background
                                         if isSelected {
                                             Rectangle()
-                                                .fill(Color(red: 30/255, green: 35/255, blue: 32/255))
+                                                .fill(Color(red: 25/255, green: 30/255, blue: 27/255))
                                         }
                                         
-                                        // Genuine Sliced Icon (contains both symbol and bottom-right subscript tag)
-                                        if isSelected {
-                                            Image("menu_icon_\(modeIdx)_selected")
-                                                .resizable()
-                                                .interpolation(.none)
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 92, height: 46)
-                                        } else {
-                                            Image("menu_icon_\(modeIdx)")
-                                                .resizable()
-                                                .interpolation(.none)
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 92, height: 46)
-                                        }
+                                        // Genuine Sliced Icon
+                                        Image("menu_icon_\(modeIdx)")
+                                            .renderingMode(.template)
+                                            .resizable()
+                                            .interpolation(.none)
+                                            .aspectRatio(contentMode: .fit)
+                                            .foregroundColor(isSelected ? Color(red: 214/255, green: 227/255, blue: 214/255) : Color(red: 25/255, green: 30/255, blue: 27/255))
+                                            .frame(width: 88, height: 44)
                                     }
-                                    .frame(width: 96, height: 48)
+                                    .frame(width: 92, height: 48)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         state.currentMode = mode
@@ -71,40 +65,45 @@ public struct MenuGridView: View {
                             }
                         }
                         .frame(height: 48)
-                        
-                        // Horizontal divider between rows
-                        if displayRow == 0 {
-                            Rectangle()
-                                .fill(Color.black.opacity(0.18))
-                                .frame(height: 1)
-                        }
                     }
                 }
-                .frame(width: 384, height: 96)
+                .frame(width: 368, height: 96)
                 
-                // Horizontal divider before text line
-                Rectangle()
-                    .fill(Color.black.opacity(0.22))
-                    .frame(height: 1)
-                
-                // 2. Bottom Mode Name Line (Height: 29 pt)
-                HStack {
-                    Text(state.isVietnamese ? highlightedMode.titleVi : highlightedMode.titleEn)
-                        .font(.system(size: 16, weight: .bold, design: .serif))
-                        .foregroundColor(Color(red: 25/255, green: 30/255, blue: 27/255))
-                    
-                    Spacer()
+                // Right Scroll Indicator
+                VStack {
+                    if scrollRow == 0 {
+                        Spacer()
+                        Text("▼")
+                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .foregroundColor(Color.black.opacity(0.85))
+                            .padding(.bottom, 6)
+                    } else {
+                        Text("▲")
+                            .font(.system(size: 10, weight: .bold, design: .monospaced))
+                            .foregroundColor(Color.black.opacity(0.85))
+                            .padding(.top, 6)
+                        Spacer()
+                    }
                 }
-                .padding(.horizontal, 10)
-                .frame(width: 384, height: 29)
+                .frame(width: 16, height: 96)
             }
+            .frame(width: 384, height: 96)
             
-            // 3. Scroll Arrow Indicator (Top-Right)
-            Text(scrollRow == 0 ? "▼" : "▲")
-                .font(.system(size: 10, weight: .bold, design: .monospaced))
-                .foregroundColor(Color.black.opacity(0.85))
-                .padding(.trailing, 6)
-                .padding(.top, 4)
+            // Horizontal divider before text line
+            Rectangle()
+                .fill(Color.black.opacity(0.22))
+                .frame(width: 384, height: 1)
+            
+            // 2. Bottom Mode Name Line (Height: 29 pt)
+            HStack {
+                Text(state.isVietnamese ? highlightedMode.titleVi : highlightedMode.titleEn)
+                    .font(.system(size: 15, weight: .bold, design: .monospaced))
+                    .foregroundColor(Color(red: 25/255, green: 30/255, blue: 27/255))
+                
+                Spacer()
+            }
+            .padding(.horizontal, 10)
+            .frame(width: 384, height: 29)
         }
         .frame(width: 384, height: 126)
     }

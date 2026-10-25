@@ -21,8 +21,8 @@ public struct ExtractedFaceplateData {
     public static let canvasWidth: CGFloat = 644.0
     public static let canvasHeight: CGFloat = 1250.0
     
-    // Extracted from GetDisplayPosition (RVA: 0x1080)
-    public static let displayRect = CGRect(x: 130.0, y: 256.0, width: 384.0, height: 126.0)
+    // Physical LCD Screen Bezel Window on Genuine Faceplate (430x172 at x=106, y=223)
+    public static let displayRect = CGRect(x: 106.0, y: 223.0, width: 430.0, height: 172.0)
     
     // Extracted from GetSymbolPosition (RVA: 0x10A0)
     public static let symbolsRect = CGRect(x: 130.0, y: 237.0, width: 384.0, height: 16.0)

@@ -14,77 +14,75 @@ public struct LCDView: View {
             Image("lcd_bg")
                 .resizable(resizingMode: .tile)
                 .background(lcdColorTint)
-                .cornerRadius(4)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 4)
-                        .stroke(Color.black.opacity(0.35), lineWidth: 1)
-                )
             
-            // Screen Content
-            if let err = state.activeError {
-                errorScreen(err)
-            } else {
-                switch state.activeOverlay {
-                case .menu:
-                    MenuGridView(state: state)
-                case .setup(let page, let sub):
-                    SetupMenuView(state: state, page: page, subCategory: sub)
-                case .option(let sub):
-                    OptionMenuView(state: state, subCategory: sub)
-                case .constPicker(let cat):
-                    constPickerScreen(category: cat)
-                case .convPicker(let cat, let page):
-                    convPickerScreen(category: cat, page: page)
-                case .resetMenu(let step):
-                    resetMenuScreen(step: step)
-                case .solveScreen(let xVal, let lrVal):
-                    solveScreen(xVal: xVal, lrVal: lrVal)
-                case .calcPrompt(let varName, let curVal):
-                    calcPromptScreen(varName: varName, curVal: curVal)
-                case .none:
-                    switch state.currentMode {
-                    case .equation:
-                        EquationScreenView(state: state)
-                    case .inequality:
-                        InequalityScreenView(state: state)
-                    case .ratio:
-                        RatioScreenView(state: state)
-                    case .table:
-                        TableScreenView(state: state)
-                    case .spreadsheet:
-                        SpreadsheetScreenView(state: state)
-                    case .matrix:
-                        MatrixScreenView(state: state)
-                    case .vector:
-                        VectorScreenView(state: state)
-                    case .statistics:
-                        StatisticsScreenView(state: state)
-                    case .distribution:
-                        DistributionScreenView(state: state)
-                    case .baseN:
-                        BaseNScreenView(state: state)
-                    case .calculate, .complex:
-                        VStack(spacing: 0) {
-                            // Top Status Bar (Only in normal calculation mode!)
-                            statusBar
-                                .frame(height: 18)
-                                .padding(.horizontal, 8)
-                                .padding(.top, 2)
-                            
-                            Divider()
-                                .background(Color.black.opacity(0.12))
-                                .padding(.horizontal, 6)
-                            
-                            // 2D Natural Math Textbook Calculation line & Result
-                            normalCalculationScreen
-                                .padding(.horizontal, 8)
-                                .padding(.bottom, 4)
+            // Screen Content (Centered 384x146 active matrix area)
+            VStack(spacing: 0) {
+                if let err = state.activeError {
+                    errorScreen(err)
+                } else {
+                    switch state.activeOverlay {
+                    case .menu:
+                        MenuGridView(state: state)
+                    case .setup(let page, let sub):
+                        SetupMenuView(state: state, page: page, subCategory: sub)
+                    case .option(let sub):
+                        OptionMenuView(state: state, subCategory: sub)
+                    case .constPicker(let cat):
+                        constPickerScreen(category: cat)
+                    case .convPicker(let cat, let page):
+                        convPickerScreen(category: cat, page: page)
+                    case .resetMenu(let step):
+                        resetMenuScreen(step: step)
+                    case .solveScreen(let xVal, let lrVal):
+                        solveScreen(xVal: xVal, lrVal: lrVal)
+                    case .calcPrompt(let varName, let curVal):
+                        calcPromptScreen(varName: varName, curVal: curVal)
+                    case .none:
+                        switch state.currentMode {
+                        case .equation:
+                            EquationScreenView(state: state)
+                        case .inequality:
+                            InequalityScreenView(state: state)
+                        case .ratio:
+                            RatioScreenView(state: state)
+                        case .table:
+                            TableScreenView(state: state)
+                        case .spreadsheet:
+                            SpreadsheetScreenView(state: state)
+                        case .matrix:
+                            MatrixScreenView(state: state)
+                        case .vector:
+                            VectorScreenView(state: state)
+                        case .statistics:
+                            StatisticsScreenView(state: state)
+                        case .distribution:
+                            DistributionScreenView(state: state)
+                        case .baseN:
+                            BaseNScreenView(state: state)
+                        case .calculate, .complex:
+                            VStack(spacing: 0) {
+                                // Top Status Bar (Only in normal calculation mode!)
+                                statusBar
+                                    .frame(height: 18)
+                                    .padding(.horizontal, 8)
+                                    .padding(.top, 4)
+                                
+                                Divider()
+                                    .background(Color.black.opacity(0.12))
+                                    .padding(.horizontal, 6)
+                                
+                                // 2D Natural Math Textbook Calculation line & Result
+                                normalCalculationScreen
+                                    .padding(.horizontal, 8)
+                                    .padding(.bottom, 6)
+                            }
                         }
                     }
                 }
             }
+            .frame(width: 384, height: 146)
         }
-        .frame(width: 384, height: 126)
+        .frame(width: 430, height: 172)
     }
     
     // Tint color modified by Contrast setting
