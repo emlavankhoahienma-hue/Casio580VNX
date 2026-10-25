@@ -340,9 +340,9 @@ public struct LCDView: View {
                         if let res = state.currentResult {
                             let newVal = item.convert(res.decimalValue)
                             state.currentResult = EvaluationResult(
+                                decimalValue: newVal,
                                 exactDisplay: MathEvaluator.shared.formatDecimal(newVal),
                                 decimalDisplay: MathEvaluator.shared.formatDecimal(newVal),
-                                decimalValue: newVal,
                                 dmsDisplay: MathEvaluator.toDMSString(newVal)
                             )
                         } else {

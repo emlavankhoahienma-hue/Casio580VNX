@@ -664,9 +664,9 @@ public class CalculatorState: ObservableObject {
                         if let res = currentResult {
                             let newVal = conv.convert(res.decimalValue)
                             currentResult = EvaluationResult(
+                                decimalValue: newVal,
                                 exactDisplay: MathEvaluator.shared.formatDecimal(newVal),
                                 decimalDisplay: MathEvaluator.shared.formatDecimal(newVal),
-                                decimalValue: newVal,
                                 dmsDisplay: MathEvaluator.toDMSString(newVal)
                             )
                         } else {
