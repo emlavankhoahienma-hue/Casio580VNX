@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - 1:1 Genuine ClassWiz LCD Setup Screen (Embedded directly inside 192x63 LCD)
+// MARK: - 1:1 Genuine ClassWiz LCD Setup Screen (Pixel-Perfect 384x126 Framebuffer)
 public struct SetupMenuView: View {
     @ObservedObject var state: CalculatorState
     let page: Int
@@ -20,38 +20,77 @@ public struct SetupMenuView: View {
                 renderPage(page)
             }
         }
-        .padding(.horizontal, 6)
-        .padding(.vertical, 3)
+        .frame(width: 384, height: 126)
     }
     
     @ViewBuilder
     private func renderPage(_ pageNum: Int) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            let items = pageItems(for: pageNum)
-            
-            ForEach(Array(items.enumerated()), id: \.offset) { idx, title in
+        VStack(spacing: 0) {
+            // Header
+            ZStack {
+                Color.black.opacity(0.88)
                 HStack {
-                    Text("\(idx + 1):\(title)")
-                        .font(.system(size: 11, weight: .bold, design: .monospaced))
-                        .foregroundColor(.black)
+                    Text(state.isVietnamese ? "CÀI ĐẶT (SETUP)" : "SETUP MENU")
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .foregroundColor(Color(red: 0.88, green: 0.93, blue: 0.88))
                     Spacer()
-                    if idx == 0 && pageNum > 1 {
-                        Text("▲")
-                            .font(.system(size: 9, weight: .bold, design: .monospaced))
+                    Text("[\(pageNum)/4]")
+                        .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        .foregroundColor(Color(red: 0.88, green: 0.93, blue: 0.88))
+                }
+                .padding(.horizontal, 8)
+            }
+            .frame(height: 22)
+            
+            // 4 Items list
+            VStack(alignment: .leading, spacing: 1) {
+                let items = pageItems(for: pageNum)
+                ForEach(Array(items.enumerated()), id: \.offset) { idx, title in
+                    HStack {
+                        Text("\(idx + 1):\(title)")
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
                             .foregroundColor(.black)
-                    } else if idx == 3 && pageNum < 4 {
-                        Text("▼")
-                            .font(.system(size: 9, weight: .bold, design: .monospaced))
-                            .foregroundColor(.black)
+                        Spacer()
+                        if idx == 0 && pageNum > 1 {
+                            Text("▲")
+                                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                                .foregroundColor(.black)
+                        } else if idx == 3 && pageNum < 4 {
+                            Text("▼")
+                                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                                .foregroundColor(.black)
+                        }
+                    }
+                    .frame(height: 18)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        handleTap(page: pageNum, index: idx + 1)
                     }
                 }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    handleTap(page: pageNum, index: idx + 1)
-                }
             }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .frame(height: 78)
             
-            Spacer()
+            // Footer
+            Rectangle()
+                .fill(Color.black.opacity(0.2))
+                .frame(height: 1)
+                .padding(.horizontal, 6)
+            
+            HStack {
+                Text("[▲][▼]: " + (state.isVietnamese ? "Trang" : "Page"))
+                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                Spacer()
+                Text("1~4: " + (state.isVietnamese ? "Chọn" : "Select"))
+                    .font(.system(size: 9, design: .monospaced))
+                Spacer()
+                Text("[AC]: " + (state.isVietnamese ? "Thoát" : "Back"))
+                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+            }
+            .foregroundColor(Color.black.opacity(0.85))
+            .padding(.horizontal, 8)
+            .frame(height: 24)
         }
     }
     
@@ -85,90 +124,117 @@ public struct SetupMenuView: View {
     
     @ViewBuilder
     private func renderSubCategory(_ sub: SetupSubCategory) -> some View {
-        switch sub {
-        case .angleUnit:
-            VStack(alignment: .leading, spacing: 3) {
-                Text(state.isVietnamese ? "Đơn vị góc" : "Angle Unit")
-                    .font(.system(size: 11, weight: .bold, design: .monospaced))
-                    .foregroundColor(Color.black.opacity(0.7))
+        VStack(spacing: 0) {
+            switch sub {
+            case .angleUnit:
+                ZStack {
+                    Color.black.opacity(0.88)
+                    Text(state.isVietnamese ? "ĐƠN VỊ GÓC" : "ANGLE UNIT")
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .foregroundColor(Color(red: 0.88, green: 0.93, blue: 0.88))
+                }
+                .frame(height: 22)
                 
-                Button(action: { state.angleUnit = .degree; state.activeOverlay = .none }) {
-                    Text("1: Degree (°)")
-                        .font(.system(size: 11, weight: state.angleUnit == .degree ? .bold : .medium, design: .monospaced))
-                        .foregroundColor(.black)
-                }
-                Button(action: { state.angleUnit = .radian; state.activeOverlay = .none }) {
-                    Text("2: Radian (r)")
-                        .font(.system(size: 11, weight: state.angleUnit == .radian ? .bold : .medium, design: .monospaced))
-                        .foregroundColor(.black)
-                }
-                Button(action: { state.angleUnit = .gradian; state.activeOverlay = .none }) {
-                    Text("3: Gradian (g)")
-                        .font(.system(size: 11, weight: state.angleUnit == .gradian ? .bold : .medium, design: .monospaced))
-                        .foregroundColor(.black)
-                }
-                Spacer()
-            }
-            
-        case .language:
-            VStack(alignment: .leading, spacing: 4) {
-                Text(state.isVietnamese ? "Ngôn ngữ" : "Language")
-                    .font(.system(size: 11, weight: .bold, design: .monospaced))
-                    .foregroundColor(Color.black.opacity(0.7))
-                
-                Button(action: { state.isVietnamese = true; state.activeOverlay = .none }) {
-                    Text("1: Tiếng Việt")
-                        .font(.system(size: 11, weight: state.isVietnamese ? .bold : .medium, design: .monospaced))
-                        .foregroundColor(.black)
-                }
-                Button(action: { state.isVietnamese = false; state.activeOverlay = .none }) {
-                    Text("2: English")
-                        .font(.system(size: 11, weight: !state.isVietnamese ? .bold : .medium, design: .monospaced))
-                        .foregroundColor(.black)
-                }
-                Spacer()
-            }
-            
-        case .contrast:
-            VStack(spacing: 6) {
-                Text(state.isVietnamese ? "Độ tương phản (Contrast)" : "Contrast Adjustment")
-                    .font(.system(size: 11, weight: .bold, design: .monospaced))
-                    .foregroundColor(.black)
-                
-                HStack {
-                    Text("◄ " + (state.isVietnamese ? "Nhạt" : "Light"))
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    Spacer()
-                    Text((state.isVietnamese ? "Đậm" : "Dark") + " ►")
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
-                }
-                .foregroundColor(.black)
-                
-                // Contrast Bar Indicator
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 2)
-                            .stroke(Color.black, lineWidth: 1)
-                            .frame(height: 12)
-                        
-                        RoundedRectangle(cornerRadius: 1)
-                            .fill(Color.black)
-                            .frame(width: geo.size.width * CGFloat(state.contrast), height: 10)
-                            .padding(.horizontal, 1)
+                VStack(alignment: .leading, spacing: 4) {
+                    Button(action: { state.angleUnit = .degree; state.activeOverlay = .none }) {
+                        Text("1: Degree (°)" + (state.angleUnit == .degree ? "  ◄" : ""))
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .foregroundColor(.black)
+                    }
+                    Button(action: { state.angleUnit = .radian; state.activeOverlay = .none }) {
+                        Text("2: Radian (r)" + (state.angleUnit == .radian ? "  ◄" : ""))
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .foregroundColor(.black)
+                    }
+                    Button(action: { state.angleUnit = .gradian; state.activeOverlay = .none }) {
+                        Text("3: Gradian (g)" + (state.angleUnit == .gradian ? "  ◄" : ""))
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .foregroundColor(.black)
                     }
                 }
-                .frame(height: 12)
+                .padding(.horizontal, 12)
+                .frame(height: 78)
                 
-                HStack {
-                    Text("[◄][►]: " + (state.isVietnamese ? "Chỉnh" : "Adj"))
-                        .font(.system(size: 9, design: .monospaced))
-                    Spacer()
-                    Text("[AC]: " + (state.isVietnamese ? "Xong" : "OK"))
-                        .font(.system(size: 9, design: .monospaced))
+                Spacer()
+                
+            case .language:
+                ZStack {
+                    Color.black.opacity(0.88)
+                    Text(state.isVietnamese ? "NGÔN NGỮ (LANGUAGE)" : "LANGUAGE")
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .foregroundColor(Color(red: 0.88, green: 0.93, blue: 0.88))
                 }
-                .foregroundColor(Color.black.opacity(0.8))
+                .frame(height: 22)
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    Button(action: { state.isVietnamese = true; state.activeOverlay = .none }) {
+                        Text("1: Tiếng Việt" + (state.isVietnamese ? "  ◄" : ""))
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .foregroundColor(.black)
+                    }
+                    Button(action: { state.isVietnamese = false; state.activeOverlay = .none }) {
+                        Text("2: English" + (!state.isVietnamese ? "  ◄" : ""))
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .foregroundColor(.black)
+                    }
+                }
+                .padding(.horizontal, 12)
+                .frame(height: 78)
+                
+                Spacer()
+                
+            case .contrast:
+                ZStack {
+                    Color.black.opacity(0.88)
+                    Text(state.isVietnamese ? "ĐỘ TƯƠNG PHẢN (CONTRAST)" : "CONTRAST")
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .foregroundColor(Color(red: 0.88, green: 0.93, blue: 0.88))
+                }
+                .frame(height: 22)
+                
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("◄ " + (state.isVietnamese ? "Nhạt" : "Light"))
+                            .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        Spacer()
+                        Text((state.isVietnamese ? "Đậm" : "Dark") + " ►")
+                            .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    }
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 16)
+                    
+                    // Contrast Bar
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 3)
+                                .stroke(Color.black, lineWidth: 1.5)
+                                .frame(height: 14)
+                            
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(Color.black)
+                                .frame(width: max(4, geo.size.width * CGFloat(state.contrast)), height: 11)
+                                .padding(.horizontal, 1.5)
+                        }
+                    }
+                    .frame(height: 14)
+                    .padding(.horizontal, 16)
+                }
+                .frame(height: 78)
+                
+                Spacer()
             }
-            .padding(.top, 4)
+            
+            // Sub-screen footer
+            HStack {
+                Text("[◄][►]: " + (state.isVietnamese ? "Chỉnh" : "Adj"))
+                    .font(.system(size: 10, design: .monospaced))
+                Spacer()
+                Text("[AC]: " + (state.isVietnamese ? "Thoát" : "Back"))
+                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+            }
+            .foregroundColor(Color.black.opacity(0.85))
+            .padding(.horizontal, 8)
+            .frame(height: 24)
         }
     }
 }

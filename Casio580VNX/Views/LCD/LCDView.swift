@@ -1,6 +1,6 @@
 import SwiftUI
 
-// MARK: - 1:1 Genuine Casio ClassWiz LCD Display (192x63 Logic Pixels / 384x126 Screen)
+// MARK: - 1:1 Genuine Casio ClassWiz LCD Display (384x126 Framebuffer)
 public struct LCDView: View {
     @ObservedObject var state: CalculatorState
     
@@ -17,48 +17,51 @@ public struct LCDView: View {
                 .cornerRadius(4)
                 .overlay(
                     RoundedRectangle(cornerRadius: 4)
-                        .stroke(Color.black.opacity(0.3), lineWidth: 1)
+                        .stroke(Color.black.opacity(0.35), lineWidth: 1)
                 )
             
-            VStack(spacing: 2) {
-                // Top Status Bar (ClassWiz Indicators: S, A, M, STO, √□/, D/R/G, 𝒊, MAT, VCT)
-                statusBar
-                    .frame(height: 14)
-                    .padding(.horizontal, 6)
-                    .padding(.top, 2)
-                
-                // Active LCD Framebuffer Screen
-                ZStack {
-                    if let err = state.activeError {
-                        errorScreen(err)
-                    } else {
-                        switch state.activeOverlay {
-                        case .menu:
-                            MenuGridView(state: state)
-                        case .setup(let page, let sub):
-                            SetupMenuView(state: state, page: page, subCategory: sub)
-                        case .option(let sub):
-                            OptionMenuView(state: state, subCategory: sub)
-                        case .constPicker(let cat):
-                            constPickerScreen(category: cat)
-                        case .convPicker(let cat, let page):
-                            convPickerScreen(category: cat, page: page)
-                        case .resetMenu(let step):
-                            resetMenuScreen(step: step)
-                        case .solveScreen(let xVal, let lrVal):
-                            solveScreen(xVal: xVal, lrVal: lrVal)
-                        case .calcPrompt(let varName, let curVal):
-                            calcPromptScreen(varName: varName, curVal: curVal)
-                        case .none:
-                            normalCalculationScreen
-                        }
+            // Screen Content
+            if let err = state.activeError {
+                errorScreen(err)
+            } else {
+                switch state.activeOverlay {
+                case .menu:
+                    MenuGridView(state: state)
+                case .setup(let page, let sub):
+                    SetupMenuView(state: state, page: page, subCategory: sub)
+                case .option(let sub):
+                    OptionMenuView(state: state, subCategory: sub)
+                case .constPicker(let cat):
+                    constPickerScreen(category: cat)
+                case .convPicker(let cat, let page):
+                    convPickerScreen(category: cat, page: page)
+                case .resetMenu(let step):
+                    resetMenuScreen(step: step)
+                case .solveScreen(let xVal, let lrVal):
+                    solveScreen(xVal: xVal, lrVal: lrVal)
+                case .calcPrompt(let varName, let curVal):
+                    calcPromptScreen(varName: varName, curVal: curVal)
+                case .none:
+                    VStack(spacing: 0) {
+                        // Top Status Bar (Only in normal calculation mode!)
+                        statusBar
+                            .frame(height: 18)
+                            .padding(.horizontal, 8)
+                            .padding(.top, 2)
+                        
+                        Divider()
+                            .background(Color.black.opacity(0.12))
+                            .padding(.horizontal, 6)
+                        
+                        // 2D Natural Math Textbook Calculation line & Result
+                        normalCalculationScreen
+                            .padding(.horizontal, 8)
+                            .padding(.bottom, 4)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding(.horizontal, 6)
-                .padding(.bottom, 3)
             }
         }
+        .frame(width: 384, height: 126)
     }
     
     // Tint color modified by Contrast setting
@@ -69,7 +72,7 @@ public struct LCDView: View {
     
     // Authentic Status Bar Indicators
     private var statusBar: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 5) {
             statusBadge(text: "S", isActive: state.isShiftActive)
             statusBadge(text: "A", isActive: state.isAlphaActive)
             statusBadge(text: "M", isActive: state.hasMemoryValue)
@@ -96,15 +99,15 @@ public struct LCDView: View {
             
             if !state.history.isEmpty {
                 Text("▲▼")
-                    .font(.system(size: 8, weight: .bold, design: .monospaced))
-                    .foregroundColor(Color.black.opacity(0.8))
+                    .font(.system(size: 9, weight: .bold, design: .monospaced))
+                    .foregroundColor(Color.black.opacity(0.85))
             }
         }
     }
     
     private func statusBadge(text: String, isActive: Bool) -> some View {
         Text(text)
-            .font(.system(size: 9, weight: .bold, design: .monospaced))
+            .font(.system(size: 10, weight: .bold, design: .monospaced))
             .foregroundColor(isActive ? Color.black : Color.black.opacity(0.12))
             .padding(.horizontal, 1)
     }
@@ -119,7 +122,7 @@ public struct LCDView: View {
                     cursorIndex: state.document.cursorIndex,
                     emptyPlaceholder: ""
                 )
-                .frame(minHeight: 30, alignment: .leading)
+                .frame(minHeight: 46, alignment: .leading)
             }
             
             Spacer()
@@ -129,7 +132,7 @@ public struct LCDView: View {
                 Spacer()
                 if let res = state.currentResult {
                     resultText(for: res)
-                        .font(.system(size: 19, weight: .bold, design: .monospaced))
+                        .font(.system(size: 21, weight: .bold, design: .monospaced))
                         .foregroundColor(Color.black.opacity(0.92))
                 }
             }
@@ -158,26 +161,27 @@ public struct LCDView: View {
     private func errorScreen(_ err: CasioError) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(state.isVietnamese ? err.titleVi : err.titleEn)
-                .font(.system(size: 14, weight: .bold, design: .monospaced))
+                .font(.system(size: 15, weight: .bold, design: .monospaced))
                 .foregroundColor(Color.black)
             
             Spacer()
             
             HStack {
                 Text("[AC]")
-                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
                 Text(state.isVietnamese ? " :Hủy" : " :Cancel")
-                    .font(.system(size: 11, design: .monospaced))
+                    .font(.system(size: 12, design: .monospaced))
                 
                 Spacer()
                 
                 Text("[◄][►]")
-                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
                 Text(state.isVietnamese ? ":Đến" : ":Goto")
-                    .font(.system(size: 11, design: .monospaced))
+                    .font(.system(size: 12, design: .monospaced))
             }
             .foregroundColor(Color.black.opacity(0.85))
         }
+        .padding(10)
     }
     
     // SOLVE Screen
@@ -185,17 +189,17 @@ public struct LCDView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text("x =")
-                    .font(.system(size: 14, weight: .bold, design: .monospaced))
+                    .font(.system(size: 15, weight: .bold, design: .monospaced))
                 Spacer()
                 Text(xVal)
-                    .font(.system(size: 15, weight: .bold, design: .monospaced))
+                    .font(.system(size: 16, weight: .bold, design: .monospaced))
             }
             HStack {
                 Text("L - R =")
-                    .font(.system(size: 12, design: .monospaced))
+                    .font(.system(size: 13, design: .monospaced))
                 Spacer()
                 Text(lrVal)
-                    .font(.system(size: 12, design: .monospaced))
+                    .font(.system(size: 13, design: .monospaced))
             }
             Spacer()
             HStack {
@@ -207,6 +211,7 @@ public struct LCDView: View {
             }
             .foregroundColor(Color.black.opacity(0.7))
         }
+        .padding(10)
     }
     
     // CALC Prompt Screen
@@ -237,6 +242,7 @@ public struct LCDView: View {
             }
             .foregroundColor(Color.black.opacity(0.7))
         }
+        .padding(10)
     }
     
     // Scientific Constants Picker Screen
@@ -258,12 +264,12 @@ public struct LCDView: View {
                 return $0.category == "Physico-Chemical" || $0.category == "Adopted"
             }
             
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(catName)
-                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.6))
                 
-                HStack(spacing: 8) {
+                HStack(spacing: 12) {
                     ForEach(0..<min(4, matching.count), id: \.self) { idx in
                         let c = matching[idx]
                         Button(action: {
@@ -271,14 +277,14 @@ public struct LCDView: View {
                             state.activeOverlay = .none
                         }) {
                             Text("\(idx + 1):\(c.symbol)")
-                                .font(.system(size: 11, weight: .bold, design: .monospaced))
+                                .font(.system(size: 12, weight: .bold, design: .monospaced))
                                 .foregroundColor(.black)
                         }
                     }
                 }
                 
                 if matching.count > 4 {
-                    HStack(spacing: 8) {
+                    HStack(spacing: 12) {
                         ForEach(4..<min(8, matching.count), id: \.self) { idx in
                             let c = matching[idx]
                             Button(action: {
@@ -286,7 +292,7 @@ public struct LCDView: View {
                                 state.activeOverlay = .none
                             }) {
                                 Text("\(idx + 1):\(c.symbol)")
-                                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                                    .font(.system(size: 12, weight: .bold, design: .monospaced))
                                     .foregroundColor(.black)
                             }
                         }
@@ -294,30 +300,32 @@ public struct LCDView: View {
                 }
                 Spacer()
                 Text("[AC]: " + (state.isVietnamese ? "Quay lại" : "Back"))
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.7))
             }
+            .padding(10)
         } else {
-            VStack(alignment: .leading, spacing: 3) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(state.isVietnamese ? "HẰNG SỐ KHOA HỌC (CONST)" : "SCIENTIFIC CONST (CONST)")
-                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.6))
                 
-                HStack(spacing: 12) {
+                HStack(spacing: 16) {
                     Button(action: { state.activeOverlay = .constPicker(category: 1) }) { Text("1:Universal") }
                     Button(action: { state.activeOverlay = .constPicker(category: 2) }) { Text("2:Electromag") }
                 }
-                HStack(spacing: 12) {
+                HStack(spacing: 16) {
                     Button(action: { state.activeOverlay = .constPicker(category: 3) }) { Text("3:Atomic&Nuc") }
                     Button(action: { state.activeOverlay = .constPicker(category: 4) }) { Text("4:Phys-Chem") }
                 }
                 Spacer()
                 Text("[AC]: " + (state.isVietnamese ? "Hủy" : "Cancel"))
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.7))
             }
-            .font(.system(size: 11, weight: .bold, design: .monospaced))
+            .font(.system(size: 12, weight: .bold, design: .monospaced))
             .foregroundColor(.black)
+            .padding(10)
         }
     }
     
@@ -329,9 +337,9 @@ public struct LCDView: View {
             let catName = (cat >= 1 && cat <= cats.count) ? cats[cat - 1] : "Length"
             let list = ConversionsData.all.filter { $0.category == catName }
             
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(catName)
-                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                    .font(.system(size: 11, weight: .bold, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.6))
                 
                 ForEach(0..<min(3, list.count), id: \.self) { idx in
@@ -351,52 +359,54 @@ public struct LCDView: View {
                         state.activeOverlay = .none
                     }) {
                         Text("\(idx + 1): \(item.title)")
-                            .font(.system(size: 11, weight: .bold, design: .monospaced))
+                            .font(.system(size: 12, weight: .bold, design: .monospaced))
                             .foregroundColor(.black)
                     }
                 }
                 Spacer()
                 Text("[AC]: " + (state.isVietnamese ? "Quay lại" : "Back"))
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.7))
             }
+            .padding(10)
         } else {
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 3) {
                 HStack {
                     Text(state.isVietnamese ? "ĐỔI ĐƠN VỊ (CONV)" : "CONVERSIONS (CONV)")
-                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                        .font(.system(size: 11, weight: .bold, design: .monospaced))
                         .foregroundColor(Color.black.opacity(0.6))
                     Spacer()
                     Text(page == 1 ? "▼" : "▲")
-                        .font(.system(size: 9, weight: .bold, design: .monospaced))
+                        .font(.system(size: 10, weight: .bold, design: .monospaced))
                 }
                 
                 if page == 1 {
-                    HStack(spacing: 12) {
+                    HStack(spacing: 16) {
                         Button(action: { state.activeOverlay = .convPicker(category: 1, page: 1) }) { Text("1:Length") }
                         Button(action: { state.activeOverlay = .convPicker(category: 2, page: 1) }) { Text("2:Area") }
                     }
-                    HStack(spacing: 12) {
+                    HStack(spacing: 16) {
                         Button(action: { state.activeOverlay = .convPicker(category: 3, page: 1) }) { Text("3:Volume") }
                         Button(action: { state.activeOverlay = .convPicker(category: 4, page: 1) }) { Text("4:Mass") }
                     }
                 } else {
-                    HStack(spacing: 12) {
+                    HStack(spacing: 16) {
                         Button(action: { state.activeOverlay = .convPicker(category: 5, page: 2) }) { Text("1:Power") }
                         Button(action: { state.activeOverlay = .convPicker(category: 6, page: 2) }) { Text("2:Pressure") }
                     }
-                    HStack(spacing: 12) {
+                    HStack(spacing: 16) {
                         Button(action: { state.activeOverlay = .convPicker(category: 7, page: 2) }) { Text("3:Energy") }
                         Button(action: { state.activeOverlay = .convPicker(category: 8, page: 2) }) { Text("4:Temp") }
                     }
                 }
                 Spacer()
                 Text("[AC]: " + (state.isVietnamese ? "Hủy" : "Cancel"))
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.system(size: 10, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.7))
             }
-            .font(.system(size: 11, weight: .bold, design: .monospaced))
+            .font(.system(size: 12, weight: .bold, design: .monospaced))
             .foregroundColor(.black)
+            .padding(10)
         }
     }
     
@@ -405,9 +415,9 @@ public struct LCDView: View {
     private func resetMenuScreen(step: ResetStep) -> some View {
         switch step {
         case .initial:
-            VStack(alignment: .leading, spacing: 3) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(state.isVietnamese ? "Khởi tạo? (Reset?)" : "Reset?")
-                    .font(.system(size: 11, weight: .bold, design: .monospaced))
+                    .font(.system(size: 12, weight: .bold, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.7))
                 
                 Button(action: { state.activeOverlay = .resetMenu(step: .completed) }) {
@@ -421,45 +431,48 @@ public struct LCDView: View {
                 }
                 Spacer()
             }
-            .font(.system(size: 11, weight: .bold, design: .monospaced))
+            .font(.system(size: 12, weight: .bold, design: .monospaced))
             .foregroundColor(.black)
+            .padding(10)
             
         case .confirmAll:
             VStack(alignment: .leading, spacing: 4) {
                 Text(state.isVietnamese ? "Khởi tạo tất cả?" : "Initialize All?")
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .font(.system(size: 13, weight: .bold, design: .monospaced))
                     .foregroundColor(.black)
                 
                 Spacer()
                 
                 HStack {
                     Text("[=]")
-                        .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
                     Text(state.isVietnamese ? " :Có (Yes)" : " :Yes")
-                        .font(.system(size: 11, design: .monospaced))
+                        .font(.system(size: 12, design: .monospaced))
                     
                     Spacer()
                     
                     Text("[AC]")
-                        .font(.system(size: 11, weight: .bold, design: .monospaced))
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
                     Text(state.isVietnamese ? " :Hủy (Cancel)" : " :Cancel")
-                        .font(.system(size: 11, design: .monospaced))
+                        .font(.system(size: 12, design: .monospaced))
                 }
                 .foregroundColor(Color.black.opacity(0.85))
             }
+            .padding(10)
             
         case .completed:
             VStack(alignment: .leading, spacing: 4) {
                 Text(state.isVietnamese ? "Đã khởi tạo xong (Reset All)" : "Reset Complete")
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
+                    .font(.system(size: 13, weight: .bold, design: .monospaced))
                     .foregroundColor(.black)
                 
                 Spacer()
                 
                 Text(state.isVietnamese ? "Bấm phím [AC]" : "Press [AC] key")
-                    .font(.system(size: 11, design: .monospaced))
+                    .font(.system(size: 12, design: .monospaced))
                     .foregroundColor(Color.black.opacity(0.85))
             }
+            .padding(10)
         }
     }
 }

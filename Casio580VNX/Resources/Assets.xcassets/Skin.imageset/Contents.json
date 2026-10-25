@@ -1,12 +1,13 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "casio_faceplate.png",
-      "idiom" : "universal"
+      "filename": "casio_faceplate.png",
+      "idiom": "universal",
+      "scale": "1x"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

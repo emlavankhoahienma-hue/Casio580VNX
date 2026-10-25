@@ -31,12 +31,16 @@ public struct CalculatorMainView: View {
                     // 1. Authentic Faceplate Skin (Extracted from CLASSWIZ_P20.dll res 103)
                     Image("casio_faceplate")
                         .resizable()
+                        .interpolation(.high)
+                        .aspectRatio(contentMode: .fit)
                         .frame(width: renderedW, height: renderedH)
                     
-                    // 2. LCD Display Framebuffer (Positioned at exact extracted offset 130, 256)
+                    // 2. LCD Display Framebuffer (Renders at native 384x126 then scaled down cleanly)
                     let dRect = ExtractedFaceplateData.displayRect
                     LCDView(state: state)
-                        .frame(width: dRect.width * scale, height: dRect.height * scale)
+                        .frame(width: dRect.width, height: dRect.height)
+                        .scaleEffect(scale, anchor: .topLeading)
+                        .frame(width: dRect.width * scale, height: dRect.height * scale, alignment: .topLeading)
                         .offset(x: dRect.origin.x * scale, y: dRect.origin.y * scale)
                     
                     // 3. 50 Physical Key Hitboxes Overlay (From CLASSWIZ_P20.dll 0x10004010)
@@ -49,7 +53,7 @@ public struct CalculatorMainView: View {
                         ZStack {
                             // Touch highlight feedback
                             if pressedKeyId == hitbox.id {
-                                RoundedRectangle(cornerRadius: hitbox.id < 8 ? kw / 2.0 : 6)
+                                RoundedRectangle(cornerRadius: hitbox.id < 8 ? kw / 2.0 : 6 * scale)
                                     .fill(Color.white.opacity(0.35))
                                     .frame(width: kw, height: kh)
                             }
