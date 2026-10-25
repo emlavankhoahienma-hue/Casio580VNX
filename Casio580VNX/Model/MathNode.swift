@@ -160,7 +160,7 @@ public class MathDocument: ObservableObject, Equatable {
                 } else if s == "π" {
                     res += "\(Double.pi)"
                 } else if s == "e" {
-                    res += "\(M_E)"
+                    res += "\(exp(1.0))"
                 } else if s == "Ans" {
                     res += "Ans"
                 } else {
